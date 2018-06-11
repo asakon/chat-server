@@ -89,6 +89,20 @@ app.get('/channels', (req, res) => {
   });
 });
 
+// 指定チャンネルへメッセージを追加する
+app.post('/channels/:cname/messages', (req, res) => {
+  let cname = req.param.cname;
+  let message = {
+    date: new Date().toJSON(),
+    body: req.body.body,
+    user: req.user
+  };
+  let messageRef = admin.database().ref(`channels/${cname}/messages`);
+  messageRef.push(message);
+  res.header('Content-Type', 'application/json; charset=utr-8');
+  res.status(201).send({result: "OK"});
+});
+
 // 初期状態に戻す
 app.post('/reset', (req, res) => {
   createChannel('general');

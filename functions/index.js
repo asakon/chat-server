@@ -35,3 +35,27 @@ const checkUser = (req, res, next) => {
 };
 
 app.use(checkUser);
+
+function createChannel(cname){
+  let channelsRef = admin.database().ref('channels');
+  let date1 = new Date();
+  let date2 = new Date();
+  date2.setSeconds(date2.getSeconds() + 1);
+
+  const defaultData = `{
+    "messages" : {
+      "1" : {
+        "body" : "Welcome to #${cname} channel!"
+      }
+    }
+  }`;
+
+  channelsRef.child(cname).set(JSON.parse(defaultData));
+}
+
+app.post('/channels', (req, res) => {
+  let cname = req.body.cname;
+  createChannel(cname);
+  res.header('Content-Type', 'application/json; charset=utr-8');
+  res.status(201).json({result: 'ok'});
+});

@@ -72,3 +72,5 @@ app.get('/channels', (req, res) => {
     res.send({channels: items});
   });
 });
+
+exports.v1 = functions.https.onRequest(app);

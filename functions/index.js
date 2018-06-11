@@ -45,11 +45,24 @@ function createChannel(cname){
   const defaultData = `{
     "messages" : {
       "1" : {
-        "body" : "Welcome to #${cname} channel!"
-      }
+        "body" : "Welcome to #${cname} channel!",
+        "date" : "${date1.toJSON()}",
+        "user" : {
+          "avatar" : "",
+          "id" : "robot",
+          "name" : "Robot"
+        }  
+      },
+      "2" : {
+      "body" : "はじめてのメッセージを投稿してみましょう。",
+      "date" : "${date2.toJSON()}",
+      "user" : {
+        "avatar" : "",
+        "id" : "robot",
+        "name" : "Robot"
+      }  
     }
   }`;
-
   channelsRef.child(cname).set(JSON.parse(defaultData));
 }
 

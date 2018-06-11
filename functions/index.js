@@ -66,6 +66,7 @@ function createChannel(cname){
   channelsRef.child(cname).set(JSON.parse(defaultData));
 }
 
+// チャンネルを作成する
 app.post('/channels', (req, res) => {
   let cname = req.body.cname;
   createChannel(cname);
@@ -73,6 +74,7 @@ app.post('/channels', (req, res) => {
   res.status(201).json({result: 'ok'});
 });
 
+// チャンネル一覧の取得
 app.get('/channels', (req, res) => {
   let channelsRef = admin.database().ref('channels');
   channelsRef.once('value', function(snapshot) {
@@ -86,11 +88,13 @@ app.get('/channels', (req, res) => {
   });
 });
 
-exports.v1 = functions.https.onRequest(app);
-
+// 初期状態に戻す
 app.post('/reset', (req, res) => {
   createChannel('general');
   createChannel('ramdom');
   res.header('Content-Type', 'application/json; charset=utr-8');
   res.status(201).send({result: "reset ok"});
 });
+
+// RESTful APIを利用可能にする
+exports.v1 = functions.https.onRequest(app);

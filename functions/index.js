@@ -74,3 +74,10 @@ app.get('/channels', (req, res) => {
 });
 
 exports.v1 = functions.https.onRequest(app);
+
+app.post('/reset', (req, res) => {
+  createChannel('general');
+  createChannel('ramdom');
+  res.header('Content-Type', 'application/json; charset=utr-8');
+  res.status(201).send({result: "reset ok"});
+});

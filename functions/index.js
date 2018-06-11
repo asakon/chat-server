@@ -54,13 +54,14 @@ function createChannel(cname){
         }  
       },
       "2" : {
-      "body" : "はじめてのメッセージを投稿してみましょう。",
-      "date" : "${date2.toJSON()}",
-      "user" : {
-        "avatar" : "",
-        "id" : "robot",
-        "name" : "Robot"
-      }  
+        "body" : "はじめてのメッセージを投稿してみましょう。",
+        "date" : "${date2.toJSON()}",
+        "user" : {
+          "avatar" : "",
+          "id" : "robot",
+          "name" : "Robot"
+        }  
+      }
     }
   }`;
   channelsRef.child(cname).set(JSON.parse(defaultData));

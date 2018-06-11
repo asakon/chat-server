@@ -103,6 +103,23 @@ app.post('/channels/:cname/messages', (req, res) => {
   res.status(201).send({result: "OK"});
 });
 
+// チャンネル内メッセージ一覧を取得する
+app.get('/channels/:cname/messages', (req, res) =>{
+  let cname = req.params.cname;
+  let messageRef = admin.database().ref(`channels/${cname}/messages`).orderByChild('date').limitToLast(20);
+  messageRef.once('value', function(snapshot) {
+    let items = new Array();
+    snapshot.forEach(function(childSnapshot) {
+      let message = childSnapshot.val();
+      message.id = childSnapshot.key;
+      items.push(message);
+    });
+    items.reverse();
+    res.header('Content-Type', 'application/json; charset=utr-8');
+    res.send({message: items});
+  });
+});
+
 // 初期状態に戻す
 app.post('/reset', (req, res) => {
   createChannel('general');
